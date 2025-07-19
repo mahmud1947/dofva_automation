@@ -14,7 +14,10 @@ dofva_automation/
 ├── contact.html        # Contact information and form
 ├── privacy-policy.html # Privacy policy page
 ├── terms-of-service.html # Terms of service page
+├── security.js         # Client-side security module
+├── .htaccess          # Server security configuration
 ├── .gitattributes      # Git configuration
+├── SECURITY.md         # Security documentation
 └── README.md           # This file
 ```
 
@@ -29,6 +32,11 @@ dofva_automation/
 - **Consistent Navigation**: Unified navigation menu across all pages
 - **Professional Footer**: Complete footer with navigation links and copyright information
 - **Fast Loading**: Optimized static HTML with minimal dependencies
+- **🔒 Comprehensive Security**: Multi-layered cybersecurity implementation
+- **XSS Protection**: Content Security Policy and input sanitization
+- **CSRF Protection**: Token-based request validation
+- **Rate Limiting**: Anti-spam and DoS protection
+- **Security Monitoring**: Real-time threat detection and logging
 
 ## Technologies Used
 
@@ -94,9 +102,22 @@ The website has been thoroughly tested for:
 - ✅ Form functionality and user experience
 - ✅ Browser compatibility (Chrome, Firefox, Safari, Edge)
 
+## Security Features
+
+🔒 **Enterprise-Grade Security** - The website implements comprehensive cybersecurity measures:
+
+- **Server-Side Protection**: Apache .htaccess with security headers, file protection, and rate limiting
+- **Client-Side Security**: Advanced JavaScript security module with real-time monitoring
+- **Input Validation**: Comprehensive sanitization and XSS prevention
+- **CSRF Protection**: Token-based request validation
+- **Session Security**: Automatic timeout and activity monitoring
+- **Security Monitoring**: Real-time threat detection and logging
+
+For detailed security information, see [SECURITY.md](./SECURITY.md).
+
 ## Project Status
 
-🚀 **Production Ready** - The website is fully functional and ready for deployment.
+🚀 **Production Ready** - The website is fully functional and ready for deployment with enterprise-grade security.
 
 ## Contact Information
 
