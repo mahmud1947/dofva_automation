@@ -12,6 +12,8 @@ dofva_automation/
 ├── about.html          # About the company
 ├── blog.html           # Blog/news section
 ├── contact.html        # Contact information and form
+├── privacy-policy.html # Privacy policy page
+├── terms-of-service.html # Terms of service page
 ├── .gitattributes      # Git configuration
 └── README.md           # This file
 ```
