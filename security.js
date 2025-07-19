@@ -15,14 +15,18 @@
         allowedDomains: ['localhost', 'dofva-automation.com']
     };
 
-    // Rate limiting for form submissions
-    class RateLimiter {
+    // Advanced Rate Limiting and DDoS Protection
+    class AdvancedRateLimiter {
         constructor() {
             this.submissions = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
-            this.cleanOldSubmissions();
+            this.pageViews = JSON.parse(localStorage.getItem('pageViews') || '[]');
+            this.failedAttempts = JSON.parse(localStorage.getItem('failedAttempts') || '[]');
+            this.suspiciousIPs = JSON.parse(localStorage.getItem('suspiciousIPs') || '[]');
+            this.cleanOldData();
+            this.initDDoSProtection();
         }
 
-        cleanOldSubmissions() {
+        cleanOldData() {
             const now = Date.now();
             this.submissions = this.submissions.filter(
                 time => now - time < SecurityConfig.submissionTimeWindow
@@ -46,11 +50,22 @@
         static sanitizeInput(input) {
             if (typeof input !== 'string') return '';
             
-            // Remove potentially dangerous characters
+            // Remove potentially dangerous characters and SQL injection patterns
             return input
-                .replace(/[<>]/g, '') // Remove angle brackets
-                .replace(/javascript:/gi, '') // Remove javascript: protocol
-                .replace(/on\w+=/gi, '') // Remove event handlers
+                .replace(/<script[^>]*>.*?<\/script>/gi, '')
+                .replace(/<[^>]+>/g, '')
+                .replace(/javascript:/gi, '')
+                .replace(/on\w+\s*=/gi, '')
+                // SQL injection prevention
+                .replace(/('|(\-\-)|(;)|(\|)|(\*)|(%))/g, '')
+                .replace(/\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b/gi, '')
+                .replace(/\b(AND|OR)\b\s*\d+\s*=\s*\d+/gi, '')
+                .replace(/\b(HAVING|WHERE)\b\s*\d+\s*=\s*\d+/gi, '')
+                .replace(/\b(CONCAT|CHAR|ASCII|SUBSTRING|LENGTH|MID|REPLACE)\s*\(/gi, '')
+                .replace(/\b(WAITFOR|DELAY|SLEEP|BENCHMARK)\b/gi, '')
+                .replace(/\b(LOAD_FILE|INTO OUTFILE|INTO DUMPFILE)\b/gi, '')
+                .replace(/\b(INFORMATION_SCHEMA|SYSOBJECTS|SYSCOLUMNS)\b/gi, '')
+                .replace(/\b(XP_CMDSHELL|SP_EXECUTESQL|OPENROWSET)\b/gi, '')
                 .trim()
                 .substring(0, SecurityConfig.maxInputLength);
         }
@@ -58,6 +73,19 @@
         static validateEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email) && email.length <= 254;
+        }
+
+        static detectSQLInjection(input) {
+            const sqlPatterns = [
+                /('|(\-\-)|(;)|(\|)|(\*))/,
+                /\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b/i,
+                /\b(AND|OR)\s+\d+\s*=\s*\d+/i,
+                /\b(CONCAT|CHAR|ASCII|SUBSTRING)\s*\(/i,
+                /\b(WAITFOR|DELAY|SLEEP|BENCHMARK)\b/i,
+                /\b(LOAD_FILE|INTO\s+OUTFILE)\b/i,
+                /\b(INFORMATION_SCHEMA|SYSOBJECTS)\b/i
+            ];
+            return sqlPatterns.some(pattern => pattern.test(input));
         }
 
         static validatePhone(phone) {
@@ -248,6 +276,12 @@
                 if (typeof value === 'string') {
                     // Check for potential XSS
                     if (this.containsXSS(value)) {
+                        return false;
+                    }
+
+                    // Check for SQL injection attempts
+                    if (InputValidator.detectSQLInjection(value)) {
+                        console.warn('🔒 SQL Injection attempt detected:', value);
                         return false;
                     }
 

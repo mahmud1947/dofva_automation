@@ -70,8 +70,21 @@ Our comprehensive JavaScript security module provides:
 #### **Form Security**
 - Automatic form validation and sanitization
 - XSS pattern detection and prevention
+- SQL injection detection and blocking
 - CSRF token injection
 - Security error notifications
+
+#### **SQL Injection Protection**
+- **Pattern Detection**: Identifies common SQL injection patterns including:
+  - SQL keywords (SELECT, INSERT, UPDATE, DELETE, DROP, etc.)
+  - Boolean-based injection attempts (AND/OR 1=1)
+  - Function-based injections (CONCAT, CHAR, ASCII, etc.)
+  - Time-based attacks (WAITFOR, DELAY, SLEEP, BENCHMARK)
+  - File operations (LOAD_FILE, INTO OUTFILE)
+  - System table access (INFORMATION_SCHEMA, SYSOBJECTS)
+- **Real-time Filtering**: Removes dangerous characters and SQL commands
+- **Server-side Protection**: Apache mod_rewrite rules block malicious requests
+- **Client-side Validation**: JavaScript detection prevents form submission
 
 ### 3. **HTML Meta Security Headers**
 
@@ -104,9 +117,12 @@ Every page includes comprehensive security meta tags:
 - ✅ Frame-ancestors CSP directive
 
 ### **SQL Injection**
-- ✅ Input validation and sanitization
-- ✅ Dangerous character removal
-- ✅ Length restrictions
+- ✅ Comprehensive SQL pattern detection and blocking
+- ✅ Server-side query string and POST body filtering
+- ✅ Client-side SQL injection pattern recognition
+- ✅ Real-time input sanitization with SQL keyword removal
+- ✅ Database function and command blocking
+- ✅ Dangerous character removal and length restrictions
 
 ### **Data Injection**
 - ✅ MIME type validation

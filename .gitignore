@@ -1,0 +1,60 @@
+# Temporary files and scripts
+*.tmp
+*.temp
+*_temp.*
+*_test.*
+add_security.py
+production_*.py
+security_validation.py
+
+# Development and testing files
+sql_injection_test.html
+test_*.html
+demo_*.html
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temporary data
+*.log
+logs/
+temp/
+
+# Node modules (if using Node.js tools)
+node_modules/
+npm-debug.log*
+
+# Python cache (if using Python tools)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+Icon?
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
