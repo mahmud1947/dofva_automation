@@ -49,6 +49,38 @@ __pycache__/
 ehthumbs.db
 Icon?
 
+# Documentation and development files
+REFACTORING.md
+DEVELOPMENT.md
+templates/
+*.draft
+*.notes
+
+# Environment and configuration
+.env
+.env.local
+.env.development
+.env.production
+config.local.*
+
+# Build and distribution
+dist/
+build/
+*.min.js
+*.min.css
+
+# Cache directories
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
